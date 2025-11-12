@@ -1,72 +1,26 @@
-query CartDeliveryOptionsTransformRunInput {
-  deliveryCustomization {
-    metafield(namespace: "$app:delivery-customization", key: "function-configuration") {
-      jsonValue
+query RunInput {
+  shop {
+    metafield1: metafield(namespace: "shipping_delivery", key: "zipcodes") {
+      value
+    }
+  }
+  cart {
+    calenderDate: attribute(key: "Delivery-Date") {
+      value
+    }
+    storeTime: attribute(key: "storeDatetime") {
+      value
+    }
+    deliveryGroups {
+      deliveryAddress {
+        zip
+        city
+      }
+      deliveryOptions {
+        handle
+        title
+        deliveryMethodType
+      } 
     }
   }
 }
-
-# query RunInput {
-#   shop {
-#     metafield1: metafield(namespace: "shipping_delivery", key: "zipcodes") {
-#       value
-#     }
-#   }
-#   cart {
-#     calenderDate: attribute(key: "Delivery-Date") {
-#       value
-#     }
-#     storeTime: attribute(key: "storeDatetime") {
-#       value
-#     }
-#     residence: attribute(key: "Type of Residence") {
-#       value
-#     }
-#     business: attribute(key: "Business Name") {
-#       value
-#     }
-#     lines {
-#       merchandise {
-#         __typename
-#         ... on ProductVariant {
-#           id
-#           semiAdhoc: metafield(namespace: "custom", key: "semi_adhoc") {
-#             value
-#           }
-#           restrict: metafield(namespace: "custom_fields", key: "region_restrict") {
-#             value
-#           }
-#           product {
-#             hasTags(
-#               tags: [
-#                 "adhoc_service_only"
-#                 "hat_box"
-#                 "flower_bouquet"
-#                 "sydsdhampers"
-#                 "heart_magnificent"
-#                 "bulky_delivery"
-#               ]
-#             ) {
-#               hasTag
-#               tag
-#             }
-#           }
-#         }
-#       }
-#     }
-#     deliveryGroups {
-#       deliveryAddress {
-#         zip
-#         city
-#       }
-#       deliveryOptions {
-#         handle
-#         title
-#         deliveryMethodType
-#         cost {
-#           amount
-#         }
-#       } 
-#     }
-#   }
-# }
