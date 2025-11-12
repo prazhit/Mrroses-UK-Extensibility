@@ -16,8 +16,20 @@ uid = "fddfc370-27c7-c30f-4ee0-a927194e2accadefd40c"
 # https://shopify.dev/docs/api/checkout-ui-extensions/latest/extension-targets-overview
 
 [[extensions.targeting]]
-module = "./src/Datepicker.jsx"
+module = "./src/DatePicker.tsx"
 target = "purchase.checkout.delivery-address.render-after"
+
+[[extensions.targeting]]
+module = "./src/LocalPickup.tsx"
+target = "purchase.checkout.pickup-location-list.render-after"
+
+[[extensions.targeting]]
+module = "./src/DeliveryInfo.tsx"
+target = "purchase.checkout.block.render"
+
+[[extensions.targeting]]
+module = "./src/ContactRender.tsx"
+target = "purchase.checkout.contact.render-after"
 
 [extensions.capabilities]
 # Gives your extension access to directly query Shopify’s storefront API.
@@ -27,18 +39,23 @@ api_access = true
 # Gives your extension access to make external network calls, using the
 # JavaScript `fetch()` API. Learn more:
 # https://shopify.dev/docs/api/checkout-ui-extensions/latest/configuration#network-access
-# network_access = true
-
+network_access = true
+block_progress = true
 # Loads metafields on checkout resources, including the cart,
 # products, customers, and more. Learn more:
 # https://shopify.dev/docs/api/checkout-ui-extensions/latest/configuration#metafields
 
-# [[extensions.metafields]]
-# namespace = "my_namespace"
-# key = "my_key"
-# [[extensions.metafields]]
-# namespace = "my_namespace"
-# key = "my_other_key"
+[[extensions.metafields]]
+namespace = "ro_shipping_delivery"
+key = "delivery"
+
+[[extensions.metafields]]
+namespace = "ebzapiet"
+key = "locations"
+
+[[extensions.metafields]]
+namespace = "extension_data"
+key = "shipping_details"
 
 # Defines settings that will be collected from merchants installing
 # your extension. Learn more:
