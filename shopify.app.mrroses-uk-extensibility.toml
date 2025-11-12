@@ -1,0 +1,19 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "a141fe135b0e86fcad90069e80e8e080"
+name = "mrroses-uk-extensibility"
+application_url = "https://example.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+
+[webhooks]
+api_version = "2026-01"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_customers,read_delivery_customizations,read_metaobjects,read_orders,read_payment_customizations,unauthenticated_read_customers,write_cart_transforms,write_delivery_customizations,write_metaobjects,write_orders,write_payment_customizations,write_products"
+
+[auth]
+redirect_urls = [ "https://example.com/api/auth" ]
