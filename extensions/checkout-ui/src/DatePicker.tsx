@@ -49,7 +49,7 @@ function Extension() {
   const deliveryGroups = useDeliveryGroups();
   const firstDeliveryGroup = useDeliveryGroup(deliveryGroups[0]);
   const selectedDeliveryOption = firstDeliveryGroup?.selectedDeliveryOption;
-  const [GiftMsg, SpecialDeliveryInstruction, Type, DeliveryDate] = useAttributeValues(['Gift-Message', 'Special-Delivery-Instruction', 'Type', 'Delivery-Date']);
+  const [GiftMsg, SpecialDeliveryInstruction, Type] = useAttributeValues(['Gift-Message', 'Special-Delivery-Instruction', 'Type']);
   const timezone = "Europe/London";
   const TIMEZONE_API = "https://mrwildflowers.com.au/uk/getapi/webhook/synctime?timeZone=" + timezone;
   const { zip, firstName, lastName, address1 } = shippingAddress;
