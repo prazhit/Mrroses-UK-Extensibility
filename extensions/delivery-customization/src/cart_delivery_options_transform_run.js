@@ -1,4 +1,4 @@
-// @ts-check
+
 
 /**
  * @typedef {import("../generated/api").RunInput} RunInput
@@ -45,40 +45,39 @@ export function cartDeliveryOptionsTransformRun(input) {
   // Flatten all delivery options
   const allOptions = deliveryGroups.flatMap(group => group.deliveryOptions || []);
 
-  const zip =
-     input.cart.deliveryGroups
-      .filter((group) => group.deliveryAddress?.zip)
-      .map((group) => group.deliveryAddress?.zip)[0] || null;
+  // const zip =
+  //    input.cart.deliveryGroups
+  //     .filter((group) => group.deliveryAddress?.zip)
+  //     .map((group) => group.deliveryAddress?.zip)[0] || null;
 
- var ebzapiets_delivery = input.shop.metafield1?.value;
-  /**
-   * @param {string | number | null} zip
-   */
-  function get_delivery_grp(zip) {
-    if (!zip || !ebzapiets_delivery) return "";
-    console.log("ebzapiets_delivery", ebzapiets_delivery);
-    console.log("zip", zip); 
-    // Normalize incoming ZIP (remove spaces, take first 3 characters)
-    const zipPrefix = zip.toUpperCase().replace(/\s+/g, "").slice(0, 3);
-    console.log("zipPrefix", zipPrefix);
-    const listRaw = ebzapiets_delivery.slice(
-      ebzapiets_delivery.indexOf("[") + 1,
-      ebzapiets_delivery.lastIndexOf("]")
-    );
-    console.log("listRaw", listRaw);
-    // Split on commas and normalize
-    const postcodeList = listRaw.split(",").map(p => p.trim().toUpperCase());
-    console.log("postcodeList", postcodeList);
-    // Check match
-    if (postcodeList.includes(zipPrefix)) {
-      return "delivery_1";
-    }
+//  var ebzapiets_delivery = input.shop.metafield1?.value;
+  // /**
+  //  * @param {string | number | null} zip
+  //  */
+  // function get_delivery_grp(zip) {
+  //   if (!zip || !ebzapiets_delivery) return "";
+  //   console.log("ebzapiets_delivery", ebzapiets_delivery);
+  //   console.log("zip", zip); 
+  //   // Normalize incoming ZIP (remove spaces, take first 3 characters)
+  //   const zipPrefix = zip.toUpperCase().replace(/\s+/g, "").slice(0, 3);
+  //   console.log("zipPrefix", zipPrefix);
+  //   const listRaw = ebzapiets_delivery.slice(
+  //     ebzapiets_delivery.indexOf("[") + 1,
+  //     ebzapiets_delivery.lastIndexOf("]")
+  //   );
+  //   console.log("listRaw", listRaw);
+  //   // Split on commas and normalize
+  //   const postcodeList = listRaw.split(",").map(p => p.trim().toUpperCase());
+  //   console.log("postcodeList", postcodeList);
+  //   // Check match
+  //   if (postcodeList.includes(zipPrefix)) {
+  //     return "delivery_1";
+  //   }
+  //   return ""; 
+  // }
 
-    return ""; // default to UK-wide
-  }
-
-  var delivery_grp = get_delivery_grp(zip);
-  //var delivery_grp = "delivery_1"; // hardcoded for testing
+  // var delivery_grp = get_delivery_grp(zip);
+  var delivery_grp = "delivery_1"; // hardcoded for testing
 
   console.log("delivery_grp", delivery_grp);
   // const storeDate = "11/06/2025";
