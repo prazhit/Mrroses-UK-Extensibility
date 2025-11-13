@@ -1,9 +1,4 @@
 query RunInput {
-  shop {
-    metafield1: metafield(namespace: "shipping_delivery", key: "zipcodes") {
-      value
-    }
-  }
   cart {
     calenderDate: attribute(key: "Delivery-Date") {
       value
