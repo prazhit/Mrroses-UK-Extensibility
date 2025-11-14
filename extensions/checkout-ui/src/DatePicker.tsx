@@ -248,9 +248,12 @@ function Extension() {
   };
 
   const updateStoreDateTime = () => {
+    let dateTimeNow = currentDate;
     const syncedTime = syncTime();
-    const dt = syncedTime?.toString();
-    const currentDateTime = formatToReadableDate(dt);
+    if (syncedTime) {
+      dateTimeNow = syncedTime?.toString();
+    }
+    const currentDateTime = formatToReadableDate(dateTimeNow);
     applyAttributeChange({
       type: 'updateAttribute',
       key: 'storeDatetime',
