@@ -6,6 +6,24 @@ query RunInput {
     storeTime: attribute(key: "storeDatetime") {
       value
     }
+    lines {
+      merchandise {
+        __typename
+        ... on ProductVariant {
+          product {
+            hasTags(
+              tags: [
+                "Restricted For London"
+                "Restricted For UK Wide"
+              ]
+            ) {
+              hasTag
+              tag
+            }
+          }
+        }
+      }
+    }
     deliveryGroups {
       deliveryAddress {
         zip
