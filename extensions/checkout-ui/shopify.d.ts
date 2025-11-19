@@ -13,7 +13,7 @@ declare module './src/LocalPickup.tsx' {
 }
 
 //@ts-ignore
-declare module './src/DeliveryInfo.tsx' {
+declare module './src/DeliveryInfoLogics.tsx' {
   const shopify: import('@shopify/ui-extensions/purchase.checkout.block.render').Api;
   const globalThis: { shopify: typeof shopify };
 }

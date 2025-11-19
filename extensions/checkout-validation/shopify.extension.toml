@@ -6,10 +6,10 @@
 api_version = "2025-10"
 
 [[extensions]]
-name = "cutoff-validation"
-handle = "cutoff-validation"
+name = "checkout-validation"
+handle = "checkout-validation"
 type = "ui_extension"
-uid = "ceecaa95-425c-0d75-ffcb-d8ccdf4d0f0c4a6b13d3"
+uid = "ef6ea9a4-d3d0-bab9-abf4-b0635634ff92bc083980"
 
 # Controls where in Shopify your extension will be injected,
 # and the file that contains your extension’s source code. Learn more:
@@ -29,6 +29,7 @@ api_access = true
 # https://shopify.dev/docs/api/checkout-ui-extensions/latest/configuration#network-access
 network_access = true
 block_progress = true
+
 # Loads metafields on checkout resources, including the cart,
 # products, customers, and more. Learn more:
 # https://shopify.dev/docs/api/checkout-ui-extensions/latest/configuration#metafields

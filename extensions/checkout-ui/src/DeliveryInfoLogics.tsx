@@ -23,7 +23,7 @@ function Extension() {
   const applyAttributeChange = useApplyAttributeChange();
   const metafields = useAppMetafields();
   const activeStep = useBuyerJourneySteps();
-  const [Type, LocationGroup, PickupID, DeliveryDate, PickupDate] = useAttributeValues(['Type', 'Location_Group', 'pickup-id', 'Delivery-Date', 'Pickup-Date']);
+  const [Type, LocationGroup, PickupID, DeliveryDate, PickupDate, GiftMsg] = useAttributeValues(['Type', 'Location_Group', 'pickup-id', 'Delivery-Date', 'Pickup-Date', 'Gift-Message']);
 
   const timezone = "Europe/London";
   const TIMEZONE_API = "https://mrwildflowers.com.au/uk/getapi/webhook/synctime?timeZone=" + timezone;
@@ -322,7 +322,49 @@ function Extension() {
     return obj;
   }
 
+  const capitalize = (str:string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
   return (
-    <></>
+    <s-box border={'base'} borderRadius={'base'}>
+      {Type && (
+        <>
+          <s-grid gridTemplateColumns="1fr auto" padding={'base'} >
+            <s-grid-item >
+              <s-stack direction="inline" columnGap="base" rowGap="small-400">
+                <s-text color="subdued">{capitalize(Type)} Date</s-text>
+                <s-text>{selectedDate}</s-text>
+              </s-stack>
+            </s-grid-item>
+            <s-grid-item>
+              <s-link tone="auto" href={'shopify:checkout/information'} >
+                <s-text type="small">Change</s-text>
+              </s-link>
+            </s-grid-item>
+          </s-grid>
+          <s-stack padding="none base">
+            <s-divider />
+          </s-stack>
+
+          <s-grid gridTemplateColumns="1fr auto" padding={'base'} >
+            <s-grid-item >
+              <s-stack direction="inline" columnGap="base" rowGap="small-400">
+                <s-text color="subdued">Gift Message</s-text>
+                <s-text>{GiftMsg}</s-text>
+              </s-stack>
+            </s-grid-item>
+            <s-grid-item>
+              <s-link tone="auto" href={'shopify:checkout/information'} >
+                <s-text type="small">Change</s-text>
+              </s-link>
+            </s-grid-item>
+          </s-grid>
+          <s-stack padding="none base">
+            <s-divider />
+          </s-stack>
+        </>
+      )}
+    </s-box>
   );
 }

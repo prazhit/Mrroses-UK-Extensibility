@@ -24,7 +24,7 @@ module = "./src/LocalPickup.tsx"
 target = "purchase.checkout.pickup-location-list.render-after"
 
 [[extensions.targeting]]
-module = "./src/DeliveryInfo.tsx"
+module = "./src/DeliveryInfoLogics.tsx"
 target = "purchase.checkout.block.render"
 
 [[extensions.targeting]]

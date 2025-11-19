@@ -247,6 +247,16 @@ function Extension() {
     
   };
 
+  const updatepriorAttributes = (deliveryGroup) => {
+    if (deliveryGroup) {
+      applyAttributeChange({
+        type: 'updateAttribute',
+        key: 'Location_Group',
+        value: deliveryGroup
+      });
+    }
+  }
+
   const updateStoreDateTime = () => {
     let dateTimeNow = currentDate;
     const syncedTime = syncTime();
@@ -275,6 +285,7 @@ function Extension() {
     disableDatesStr.push(lastDisabledDate);
     setDisallowedDates(disableDatesStr.join(','));
     setCurrentDeliveryGroup(current_delivery_grp);
+    updatepriorAttributes(current_delivery_grp);
     if (current_delivery_grp !== "") {
       setShowDateField(true);
     } else {
