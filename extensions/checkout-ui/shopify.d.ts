@@ -23,3 +23,9 @@ declare module './src/ContactRender.tsx' {
   const shopify: import('@shopify/ui-extensions/purchase.checkout.contact.render-after').Api;
   const globalThis: { shopify: typeof shopify };
 }
+
+//@ts-ignore
+declare module './src/CartLine.tsx' {
+  const shopify: import('@shopify/ui-extensions/purchase.checkout.cart-line-item.render-after').Api;
+  const globalThis: { shopify: typeof shopify };
+}

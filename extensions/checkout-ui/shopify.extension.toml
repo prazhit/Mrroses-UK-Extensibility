@@ -31,6 +31,10 @@ target = "purchase.checkout.block.render"
 module = "./src/ContactRender.tsx"
 target = "purchase.checkout.contact.render-after"
 
+[[extensions.targeting]]
+module = "./src/CartLine.tsx"
+target = "purchase.checkout.cart-line-item.render-after"
+
 [extensions.capabilities]
 # Gives your extension access to directly query Shopify’s storefront API.
 # https://shopify.dev/docs/api/checkout-ui-extensions/latest/configuration#api-access

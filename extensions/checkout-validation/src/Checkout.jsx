@@ -6,6 +6,7 @@ import {
   useCartLines,
   useApi,
   useAttributeValues,
+  useShippingAddress,
   useBuyerJourneyIntercept
 } from '@shopify/ui-extensions/checkout/preact';
 
@@ -18,6 +19,7 @@ function Extension() {
   const skipUserIntercepts = useRef(false);
   const [LocationGroup] = useAttributeValues(['Location_Group']);
   const cartLines = useCartLines();
+  const { zip } = useShippingAddress();
   const { query } = useApi();
   
   useEffect(() => {
@@ -59,7 +61,8 @@ function Extension() {
         setInvalidItems(Array.from(invalidSet));
       })
       .catch(console.error);
-  }, [query, cartLines, LocationGroup]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, cartLines, zip, LocationGroup]);
 
   useBuyerJourneyIntercept(({ canBlockProgress }) => {
     if (skipUserIntercepts.current) {
@@ -71,16 +74,9 @@ function Extension() {
     const BLOCK_REASONS = [];
 
     if (canBlockProgress && invalidItems.length > 0) {
-      const formattedItems = formatInvalidItems([...invalidItems]);
       return {
         behavior: 'block',
-        reason: 'Invalid items in cart for selected delivery location',
-        errors: [
-          {
-            message: `${formattedItems} ${invalidItems.length > 1 ? 'are' : 'is'} not eligible for delivery to your location :-(
-            Please refer to "Where We Deliver" or call us at 1300-677-673 for more information.`,
-          }
-        ],
+        reason: 'Invalid items in cart for selected delivery location'
       };
     }
 
@@ -114,9 +110,13 @@ function Extension() {
     const last = items.pop();
     return `${items.join(', ')} & ${last}`;
   }
-
+  const formattedItems = formatInvalidItems(invalidItems);
   return (
-    <></>
+    <>
+    {formattedItems && (
+        <s-banner tone='critical'>{formattedItems} {invalidItems.length > 1 ? 'are' : 'is'} not available for the selected address.</s-banner>
+      )}
+    </>
   );
 
 }
