@@ -7,7 +7,7 @@ import {
   useApplyAttributeChange,
   useBuyerJourneyIntercept,
   useAppMetafields,
-  useBuyerJourneySteps,
+  useBuyerJourneyActiveStep,
 } from '@shopify/ui-extensions/checkout/preact';
 
 export default async () => {
@@ -19,10 +19,9 @@ function Extension() {
   const [lastFetchedTime, setLastFetchedTime] = useState(null);
   const [isWithinCutoff, setIsWithinCutoff] = useState(true);
   const [selectedDate, setSelectedDate] = useState("");
-  const [cutoffMsg, setCutoffMsg] = useState("");
   const applyAttributeChange = useApplyAttributeChange();
   const metafields = useAppMetafields();
-  const activeStep = useBuyerJourneySteps();
+  const activeStep = useBuyerJourneyActiveStep();
   const [Type, LocationGroup, PickupID, DeliveryDate, PickupDate, GiftMsg] = useAttributeValues(['Type', 'Location_Group', 'pickup-id', 'Delivery-Date', 'Pickup-Date', 'Gift-Message']);
 
   const timezone = "Europe/London";
@@ -62,14 +61,10 @@ function Extension() {
   }, [currentDate])
 
   useEffect(() => {
-    setIsWithinCutoff(true);
     if (DeliveryDate) {
       setSelectedDate(DeliveryDate);
     } else if (PickupDate) {
       setSelectedDate(PickupDate);
-    } else {
-      setCutoffMsg(cutoff_message.nodate);
-      setIsWithinCutoff(false);
     }
     if (metafields.length > 0) {
       let dateTimeNow = currentDate;
@@ -89,13 +84,27 @@ function Extension() {
     if (canBlockProgress && !isWithinCutoff) {
       return {
         behavior: 'block',
-        reason: 'Invalid postal code',
+        reason: 'Date cutoff passed',
         errors: [
           {
-            message: cutoffMsg
+            message: cutoff_message.passed_date
           }
         ],
       };
+    }
+
+    if (activeStep.handle == "shipping" || activeStep.handle == "payment") {
+      if (!DeliveryDate && !PickupDate) {
+        return {
+          behavior: 'block',
+          reason: 'Invalid date',
+          errors: [
+            {
+              message: cutoff_message.nodate
+            }
+          ],
+        };
+      }
     }
 
     if (BLOCK_REASONS.length > 0) {
@@ -278,7 +287,6 @@ function Extension() {
     const disable_date_obj = new Date(last_disabled_date);
     const selected_date_obj = new Date(selectedDate);
     if (disable_date_obj >= selected_date_obj) {
-      setCutoffMsg(cutoff_message.passed_date);
       setIsWithinCutoff(false);
     }    
   }
