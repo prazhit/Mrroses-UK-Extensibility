@@ -113,21 +113,14 @@ export function cartDeliveryOptionsTransformRun(input) {
     resLondon
   );
 
-  // Find matching option(s)
-  // const matchingOptions = allOptions.filter(option =>
-  //   option.title?.includes(KEEP_TITLE)
-  // );
-
   const matchingOptions = allOptions.filter((option) =>
     delivery_option.some((delivery) => option.title?.includes(delivery)),
   );
 
-  console.log("matchingOptions", matchingOptions);
+  console.log("matchingOptions", JSON.stringify(matchingOptions, null, 2));
 
-  // If no matching option exists, do nothing
-  // if (!matchingOptions.length) return NO_CHANGES;
+  if (!matchingOptions.length) return NO_CHANGES;
 
-  // Hide everything except the matching ones
   const operations = allOptions
     .filter(option => !matchingOptions.includes(option))
     .map(option => ({
@@ -136,11 +129,8 @@ export function cartDeliveryOptionsTransformRun(input) {
       }
     }));
 
-  console.log("operations", operations);
-
   return { operations };
 }
-
 
 function zip_delivery_option(
   delivery_grp,
@@ -225,9 +215,6 @@ function uk_wide_delivery(storeDate, deliveryDate, deliveryDay, formattedTime, t
   return deliveryOptions;
 }
 
-
-// --- UTILITIES ---
-
 function formatDate(inputDate) {
   const date = new Date(inputDate);
   const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -237,7 +224,7 @@ function formatDate(inputDate) {
 }
 
 function convertToMilitaryTime(time) {
-  let [hours, minutes, seconds, period] = time.split(/[: ]/);
+  let [hours, minutes, period] = time.split(/[: ]/);
   hours = parseInt(hours, 10);
   minutes = parseInt(minutes, 10);
 
@@ -247,170 +234,6 @@ function convertToMilitaryTime(time) {
   const scaledMinutes = Math.round((minutes / 60) * 100);
   return String(hours * 100 + scaledMinutes).padStart(4, "0");
 }
-
-
-//old code
-
-// @ts-check
-// Use JSDoc annotations for type safety
-// /**
-//  * @typedef {import("../generated/api").RunInput} RunInput
-//  * @typedef {import("../generated/api").FunctionRunResult} FunctionRunResult
-//  * @typedef {import("../generated/api").Operation} Operation
-//  * @typedef {import("../generated/api").ProductVariant} ProductVariant
-//  */
-// // The configured entrypoint for the 'purchase.delivery-customization.run' extension target
-// /**
-//  * @param {RunInput} input
-//  * @returns {FunctionRunResult}
-//  */
-// export function run(input) {
-//   // variable declare
-//   let formattedTime = null;
-//   let deliveryDate = null;
-//   let storeDate = null;
-//   let deliveryDay = null;
-//   let tomorrow = null;
-//   let delivery_option = null;
-
-//   // extract zipcode
-//   const zip =
-//     input.cart.deliveryGroups
-//       .filter((group) => group.deliveryAddress?.zip)
-//       .map((group) => group.deliveryAddress?.zip)[0] || null;
-
-//   // extract delivery group
-//   var ebzapiets_delivery = input.shop.metafield1?.value;
-//   /**
-//    * @param {string | number | null} zip
-//    */
-//   function get_delivery_grp(zip) {
-//     // @ts-ignore
-//     ebzapiets_delivery = JSON.parse(ebzapiets_delivery);
-//     // @ts-ignore
-//     for (const group in ebzapiets_delivery) {
-//       // @ts-ignore
-//       zip = parseInt(zip);
-//       if (ebzapiets_delivery[group].includes(zip)) {
-//         return group;
-//       }
-//     }
-//     return "";
-//   }
-
-//   var delivery_grp = get_delivery_grp(zip);
-
-//   // extract the flower type
-//   const targets = input.cart.lines
-//     .filter((line) => line.merchandise.__typename === "ProductVariant")
-//     .map((line) => /** @type {ProductVariant} */(line.merchandise));
- 
-
-//   // extract attribute
-//   const selectedDate = formatDate(input.cart.calenderDate?.value);
-//   const storeTime = input.cart.storeTime?.value;
-
-//   if (storeTime) {
-//     const [dayS, dateS, timeS] = storeTime.split(", ");
-//     storeDate = dateS;
-//     // Convert and format the time
-//     formattedTime = convertToMilitaryTime(timeS);
-//     tomorrow = getTomorrow(storeDate);
-//   } else {
-//     console.log("no store time");
-//   }
-
-//   if (selectedDate) {
-//     deliveryDate = selectedDate;
-//     let d_date = new Date(deliveryDate);
-//     deliveryDay = d_date.getDay();
-//   }
-
-//   const allOptions = input.cart.deliveryGroups.flatMap(
-//     (group) => group.deliveryOptions
-//   );
-
-//   delivery_option = zip_delivery_option(
-//     zip,
-//     delivery_grp,
-//     storeDate,
-//     formattedTime,
-//     deliveryDate,
-//     deliveryDay,
-//     tomorrow
-//   );
-
-//   var firstDeliveryGroup = input.cart.deliveryGroups[0];
-//   let isShipping = false;
-
-//   for (let option of firstDeliveryGroup.deliveryOptions) {
-//     if (isShippingMethod(option)) {
-//       isShipping = true;
-//       break;
-//     }
-//   }
-
-//   const matchingOptions = allOptions.filter((option) =>
-//     delivery_option.some((delivery) => option.title?.includes(delivery)),
-//   );
-
-//   const toHide = allOptions
-//     .filter((option) => !matchingOptions.includes(option))
-//     .map((option) => ({
-//       hide: {
-//         deliveryOptionHandle: option.handle,
-//       },
-//     }));
- 
-//   // Ensure valid JSON return
-//   if (isShipping) {
-//     return {
-//       operations: [...toHide],
-//     };
-//   } else {
-//     return {
-//       operations: [],
-//     };
-//   }
-// }
-
-// function isShippingMethod(deliveryOption) {
-//   return deliveryOption.deliveryMethodType === "SHIPPING";
-// }
-
-// const formatDate = (inputDate) => {
-//   const date = new Date(inputDate);
-//   const month = date.getMonth() + 1;
-//   const day = date.getDate();
-//   const year = date.getFullYear();
-//   const formattedMonth = month.toString().padStart(2, '0');
-//   const formattedDay = day.toString().padStart(2, '0');
-
-//   return `${formattedMonth}/${formattedDay}/${year}`;
-// };
-
-// /**
-//  * formates time
-//  * @param time
-//  */
-// function convertToMilitaryTime(time) {
-//   let [hours, minutes, seconds, period] = time.split(/[: ]/);
-
-//   hours = parseInt(hours, 10);
-//   minutes = parseInt(minutes, 10);
-
-//   if (period === "PM" && hours !== 12) {
-//     hours += 12;
-//   } else if (period === "AM" && hours === 12) {
-//     hours = 0;
-//   }
-//   let scaledMinutes = Math.round((minutes / 60) * 100);
-//   let currentFullTime = hours * 100 + scaledMinutes;
-//   return String(currentFullTime).padStart(4, "0");
-// }
-
-
-// }
 
 function getTomorrow(storeDate) {
   const [month, day, year] = storeDate.split("/").map(Number);
