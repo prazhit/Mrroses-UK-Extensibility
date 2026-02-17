@@ -156,7 +156,6 @@ function Extension() {
       setCanUseMetafields(true);
     } else {
       setCanUseMetafields(false);
-      console.log('Waiting for metafields to load...');
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metafields]);
@@ -169,7 +168,6 @@ function Extension() {
   };
 
   useBuyerJourneyIntercept(({ canBlockProgress }) => {
-    console.log("USER BUYER JOURNERY CALLED")
     const BLOCK_REASONS: BlockReason[] = [];
 
     if (canBlockProgress && !dateValidation()) {

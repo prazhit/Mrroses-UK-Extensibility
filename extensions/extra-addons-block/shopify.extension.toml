@@ -1,0 +1,45 @@
+# Learn more about configuring your checkout UI extension:
+# https://shopify.dev/docs/api/checkout-ui-extensions/latest/configuration
+
+# The version of APIs your extension will receive. Learn more:
+# https://shopify.dev/docs/api/usage/versioning
+api_version = "2026-01"
+
+[[extensions]]
+name = "extra-addons-block"
+handle = "extra-addons-block"
+type = "ui_extension"
+uid = "f19762a1-9a6a-e2db-ed15-8611094f2dbb85f35ad6"
+
+# Controls where in Shopify your extension will be injected,
+# and the file that contains your extension’s source code. Learn more:
+# https://shopify.dev/docs/api/checkout-ui-extensions/latest/extension-targets-overview
+
+[[extensions.targeting]]
+module = "./src/Checkout.tsx"
+target = "purchase.checkout.block.render"
+
+[extensions.capabilities]
+api_access = true
+network_access = true
+block_progress = true
+
+[extensions.settings]
+  [[extensions.settings.fields]]
+  key = "addon_title"
+  type = "single_line_text_field"
+  name = "Enter Title"
+  description = "Enter title for product offer"
+
+  [[extensions.settings.fields]]
+  key = "collection_ids"
+  type = "multi_line_text_field"
+  name = "Enter Collection IDs"
+  description = "Enter Collection IDs to display"
+
+
+  [[extensions.settings.fields]]
+  key = "alternative_collection_ids"
+  type = "multi_line_text_field"
+  name = "Enter Alternative Collection IDs"
+  description = "Collection IDs that shows based on the logic"

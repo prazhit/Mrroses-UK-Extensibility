@@ -29,7 +29,6 @@ function Extension() {
   const { query } = useApi();
 
   useEffect(() => {
-    console.log({ cartLines });
     checkAddons();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cartLines]);
