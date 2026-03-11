@@ -1,0 +1,62 @@
+# Learn more about configuring your checkout UI extension:
+# https://shopify.dev/docs/api/checkout-ui-extensions/latest/configuration
+
+# The version of APIs your extension will receive. Learn more:
+# https://shopify.dev/docs/api/usage/versioning
+api_version = "2026-01"
+
+[[extensions]]
+name = "google-review-block"
+handle = "google-review-block"
+type = "ui_extension"
+uid = "2807ae8c-0a51-6acd-223b-1e9b24211c63bbcad5b5"
+
+# Controls where in Shopify your extension will be injected,
+# and the file that contains your extension’s source code. Learn more:
+# https://shopify.dev/docs/api/checkout-ui-extensions/latest/extension-targets-overview
+
+[[extensions.targeting]]
+module = "./src/Checkout.jsx"
+target = "purchase.thank-you.block.render"
+
+[extensions.capabilities]
+# Gives your extension access to directly query Shopify’s storefront API.
+# https://shopify.dev/docs/api/checkout-ui-extensions/latest/configuration#api-access
+api_access = true
+
+# Gives your extension access to make external network calls, using the
+# JavaScript `fetch()` API. Learn more:
+# https://shopify.dev/docs/api/checkout-ui-extensions/latest/configuration#network-access
+# network_access = true
+
+# Loads metafields on checkout resources, including the cart,
+# products, customers, and more. Learn more:
+# https://shopify.dev/docs/api/checkout-ui-extensions/latest/configuration#metafields
+
+[[extensions.metafields]]
+namespace = "$app"
+key = "requestedFreeGift"
+
+# Defines settings that will be collected from merchants installing
+# your extension. Learn more:
+# https://shopify.dev/docs/api/checkout-ui-extensions/latest/configuration#settings-definition
+
+
+[extensions.settings]
+[[extensions.settings.fields]]
+key = "review_title"
+type = "single_line_text_field"
+name = "Review title"
+description = "Enter a title for google review block"
+
+[[extensions.settings.fields]]
+key = "review_content"
+type = "multi_line_text_field"
+name = "Review Content"
+description = "Enter content for google review block"
+
+[[extensions.settings.fields]]
+key = "review_button_text"
+type = "single_line_text_field"
+name = "Button Text"
+
